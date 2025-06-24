@@ -8,8 +8,8 @@ fn main() {
     // thread_rng() is a function that provides a random number generator
     // gen_range(1..=100) generates a random number in the range 1 to 100
     // The `=` in the range means that 100 is inclusive
-    let secret_number = rand::thread_rng()
-                                .gen_range(1..=100);
+    let secret_number = rand::rng()
+                                .random_range(1..=100);
 
     println!("The secret number is: {secret_number}");
 
