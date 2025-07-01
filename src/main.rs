@@ -16,19 +16,27 @@ fn main() {
 
     println!("Please input your guess.");
 
-    let mut guess = String::new();
-
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
-
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
-
-    println!("You guessed: {guess}");
-
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
+    loop {
+        let mut guess = String::new();
+        // Read user input
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+        // Trim the input to remove whitespace and parse it to a number
+        // expect() is used to handle the case where parsing fails
+        // It will panic with the message "Please type a number!" if parsing fails
+        // The `trim()` method removes any leading or trailing whitespace
+        // The `parse()` method converts the string to a number
+        let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        println!("You guessed: {guess}");
+        // Match the guess against the secret number
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            },
+        }   
     }
 }
