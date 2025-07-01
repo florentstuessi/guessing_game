@@ -9,15 +9,16 @@ fn main() {
     // thread_rng() is a function that provides a random number generator
     // gen_range(1..=100) generates a random number in the range 1 to 100
     // The `=` in the range means that 100 is inclusive
-    let secret_number = rand::rng()
+    let secret_number: u32 = rand::rng()
                                 .random_range(1..=100);
 
     println!("The secret number is: {secret_number}");
 
     println!("Please input your guess.");
 
+    let mut guess = String::new();
     loop {
-        let mut guess = String::new();
+        guess.clear(); // Clear the previous guess
         // Read user input
         io::stdin()
             .read_line(&mut guess)
@@ -27,7 +28,14 @@ fn main() {
         // It will panic with the message "Please type a number!" if parsing fails
         // The `trim()` method removes any leading or trailing whitespace
         // The `parse()` method converts the string to a number
-        let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        // let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        let guess: u32 = match guess.trim().parse::<u32>() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please type a number!");
+                continue;
+            },
+        };
         println!("You guessed: {guess}");
         // Match the guess against the secret number
         match guess.cmp(&secret_number) {
